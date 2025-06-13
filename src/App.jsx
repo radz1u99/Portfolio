@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 
 export default function App() {
-  // Efekt świetlnej kuli podążającej za kursorem
   useEffect(() => {
     const cursor = document.createElement('div');
     cursor.className = 'cursor-light';
