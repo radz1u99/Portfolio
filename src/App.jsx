@@ -1,44 +1,29 @@
 import { useEffect } from 'react';
 
 export default function App() {
-  // Matrix background effect (subtle)
+  // Efekt świetlnej kuli podążającej za kursorem
   useEffect(() => {
-    const canvas = document.getElementById('matrix');
-    const ctx = canvas.getContext('2d');
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+    const cursor = document.createElement('div');
+    cursor.className = 'cursor-light';
+    document.body.appendChild(cursor);
+
+    const updateCursor = (e) => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
     };
-    resize();
-    const letters = Array(256).join('1').split('');
-    const fontSize = 16;
-    let columns = canvas.width / fontSize;
-    let drops = Array.from({ length: columns }, () => 1);
-    function draw() {
-      ctx.fillStyle = 'rgba(0,0,0,0.22)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = 'rgba(0,255,0,0.10)';
-      ctx.font = fontSize + 'px Fira Code';
-      for (let i = 0; i < drops.length; i++) {
-        const text = letters[Math.floor(Math.random() * letters.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
-        drops[i]++;
-      }
-    }
-    const interval = setInterval(draw, 33);
-    window.addEventListener('resize', resize);
+
+    document.addEventListener('mousemove', updateCursor);
+
     return () => {
-      clearInterval(interval);
-      window.removeEventListener('resize', resize);
+      document.removeEventListener('mousemove', updateCursor);
+      if (cursor.parentNode) {
+        cursor.parentNode.removeChild(cursor);
+      }
     };
   }, []);
 
   return (
     <>
-      <canvas id="matrix" className="matrix-canvas"></canvas>
       <div className="portfolio-root">
         <header className="portfolio-header">
           <nav>
@@ -59,19 +44,20 @@ export default function App() {
               <h1>
                 Radek Michalski<br />
               </h1>
+              <p className="subtitle">Uczę się programowania</p>
             </div>
             <div className="hero-right">
-              <img className="photo-placeholder" src="https://www.getmecoding.com/wp-content/uploads/2017/10/GMC_blog_IsWebDevelopmentCoding_resize.jpg" alt="Web development" />
+              <img className="hero-image" src="https://www.getmecoding.com/wp-content/uploads/2017/10/GMC_blog_IsWebDevelopmentCoding_resize.jpg" alt="Web development" />
             </div>
           </section>
           <section className="intro-section">
             <div className="intro-left">
-              <h2>Rozwijam swoje umiejętności programistyczne i tworzę własne projekty</h2>
+              <h2>Rozwijam umiejętności i tworzę pierwsze projekty</h2>
             </div>
             <div className="intro-right">
               <p>Cześć! Mam na imię Radek i uczę się w Technikum nr 19 w Poznaniu.<br /><br />
                 Uczę się języków programowania takich jak Java, Python oraz React. Interesuję się tworzeniem nowoczesnych stron i aplikacji internetowych.<br /><br />
-                Zapraszam do zapoznania się z moimi umiejętnościami poniżej!
+                Zapraszam do zapoznania się z moimi projektami i umiejętnościami poniżej!
               </p>
             </div>
           </section>
@@ -82,6 +68,32 @@ export default function App() {
             <div className="badge">🎨 CSS</div>
             <div className="badge">⚛️ React</div>
             <div className="badge">🖥️ Web</div>
+          </section>
+          <section className="contact-section" id="contact">
+            <h2>Kontakt</h2>
+            <div className="contact-grid">
+              <div className="contact-item">
+                <div className="contact-icon">📧</div>
+                <div className="contact-info">
+                  <h3>Email</h3>
+                  <a href="mailto:radek4604@gmail.com">radek4604@gmail.com</a>
+                </div>
+              </div>
+              <div className="contact-item">
+                <div className="contact-icon">🎮</div>
+                <div className="contact-info">
+                  <h3>Discord</h3>
+                  <span>radziu__</span>
+                </div>
+              </div>
+              <div className="contact-item">
+                <div className="contact-icon">📱</div>
+                <div className="contact-info">
+                  <h3>Telefon</h3>
+                  <a href="tel:123456789">123 456 789</a>
+                </div>
+              </div>
+            </div>
           </section>
         </main>
       </div>
